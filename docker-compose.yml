@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${CONTAINER_NAME:-polymarket-ai-agent-app}
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    command: ["python", "-u", "main.py"]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
